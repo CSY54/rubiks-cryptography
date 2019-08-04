@@ -1,0 +1,6 @@
+*.pyc
+/__pycache__
+key*
+test*
+gen*
+state.md
