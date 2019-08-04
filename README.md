@@ -3,7 +3,10 @@
 A project for Crypto @ AIS3 2019.
 
 Just a simple demo for a 3 x 3 x 3 Rubik's Cube.
+
 These code were written within 2 hours, there might be lots of bugs in it.
+
+`Huffman_code.py` is modified from [here](https://github.com/gg-z/huffman_coding/blob/master/main.py)
 
 ## How It Works
 
