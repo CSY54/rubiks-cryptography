@@ -2,7 +2,7 @@
 
 from RubikEncryption import RubikEncryption
 
-pt  = input('[>] Plaintext : ').strip().encode()
+pt  = input('[>] Plaintext : ').strip()
 key = input('[>] Key : ').split()
 
 re = RubikEncryption()

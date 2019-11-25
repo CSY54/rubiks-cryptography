@@ -61,7 +61,6 @@ class HuffTree(object):
     def traverse_huffman_tree(self, root, code, char_freq):
         if root.isleaf():
             char_freq[root.get_value()] = code
-            print(("it = %c  and  freq = %d  code = %s")%(chr(root.get_value()),root.get_wieght(), code))
             return None
         else:
             self.traverse_huffman_tree(root.get_left(), code+'0', char_freq)
@@ -79,8 +78,6 @@ def buildHuffmanTree(list_hufftrees):
     return list_hufftrees[0]
 
 def compress(inputfilename, outputfilename):
-    print('/=== Compressing {} into {} ===\\'.format(inputfilename, outputfilename))
-
     f = open(inputfilename,'rb')
     filedata = f.read()
     filesize = f.tell()
@@ -93,9 +90,6 @@ def compress(inputfilename, outputfilename):
             char_freq[tem] = char_freq[tem] + 1
         else:
             char_freq[tem] = 1
-
-    for tem in char_freq.keys():
-        print(tem,' : ',char_freq[tem])
 
     list_hufftrees = []
     for x in char_freq.keys():
@@ -160,11 +154,8 @@ def compress(inputfilename, outputfilename):
     output.write(six.int2byte(out))
 
     output.close()
-    print('\\' + '-' * 40 + '/')
 
 def decompress(inputfilename, outputfilename):
-    print('/=== Decompressing {} into {} ===\\'.format(outputfilename, inputfilename))
-
     f = open(inputfilename,'rb')
     filedata = f.read()
     filesize = f.tell()
@@ -201,7 +192,6 @@ def decompress(inputfilename, outputfilename):
         j = j|a3
         j = j<<8
         j = j|a4
-        print(c, j)
         char_freq[c] = j
 
     list_hufftrees = []
@@ -263,7 +253,6 @@ def decompress(inputfilename, outputfilename):
         currnode = tem.get_root()
 
     output.close()
-    print('\\' + '-' * 40 + '/')
 
 if __name__ == '__main__':
     # FLAG = 0 means compress the file; FLAG = 1 means decompress the file

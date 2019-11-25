@@ -12,11 +12,11 @@ These code were written within 2 hours, there might be lots of bugs in it.
 
 ### Encryption
 
-1. Turn the plaintext into binary data
-2. Pad 0 in the front of the binary until the length is the multiple of the cube size, which is 54 in 3 x 3 x 3
+1. Convert the plaintext into binary 
+2. Pad 0 in the front of the binary until the length is the multiple of the cube size, which is 54 in a 3 x 3 x 3 Rubik's cube
 3. Fill the 0s and 1s in the order mentioned in the next section
 4. Rotate using the key, where key should be a array
-5. Extract every bit in the order then turn the binary data into string (hex)
+5. Extract every bit in the order then convert the binary data into text and base64 encode it
 
 (Optional: Compress the key using Huffman Encoding, which is a lossless compression algorithm and will make the size of the key become smaller to store.)
 
@@ -24,10 +24,10 @@ These code were written within 2 hours, there might be lots of bugs in it.
 
 (Optional: Decompress the key file using Huffman Encoding)
 
-1. Turn the ciphertext into binary data
+1. Base64 decode the ciphertext and convert it into binary data
 2. Fill the 0s and 1s in the order mentioned in the next section
 3. Rotate back using the reverse of the key
-4. Extract every bit in the order then turn the binary data into string
+4. Extract every bit in the order then convert the binary data into string
 
 ## How To Use
 
@@ -57,11 +57,11 @@ Here are valid keys (in Rubik's Cube notation)
 
 from RubikEncryption import RubikEncryption
 
-pt  = input('[>] Plaintext : ').strip()
+pt = input('[>] Plaintext : ').strip()
 key = input('[>] Key : ').strip().split()
 
 re = RubikEncryption()
-ct = re.encrypt(pt.encode, key)
+ct = re.encrypt(pt, key)
 print('[+] Ciphertext : {}'.format(ct))
 ```
 
@@ -72,10 +72,10 @@ print('[+] Ciphertext : {}'.format(ct))
 
 from RubikEncryption import RubikEncryption
 
-ct  = input('[>] Ciphertext : ').strip()
+ct = input('[>] Ciphertext : ').strip()
 key = input('[>] Key : ').strip().split()
 
 re = RubikEncryption()
-pt = re.decrypt(ct.encode(), key)
+pt = re.decrypt(ct, key)
 print('[+] Plaintext : {}'.format(pt))
 ```

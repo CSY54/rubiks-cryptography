@@ -17,11 +17,7 @@ class RubikEncryption():
             raise NotImplementedError('meow')
 
     def encrypt(self, plaintext, key):
-        # plaintext
-        if type(plaintext) != bytes:
-            raise TypeError('Type of plaintext must be bytes')
-
-        plaintext = bin(bytes_to_long(plaintext)).lstrip('0b')
+        plaintext = bin(bytes_to_long(plaintext.encode())).lstrip('0b')
         self.plaintext = self.pad(plaintext)
 
         if self.debug:
@@ -45,11 +41,7 @@ class RubikEncryption():
         return b64encode(long_to_bytes(int(self.ciphertext, 2))).decode()
 
     def decrypt(self, ciphertext, key):
-        # ciphertext
-        if type(ciphertext) != bytes:
-            raise TypeError('Type of ciphertext must be bytes')
-
-        ciphertext = bin(bytes_to_long(b64decode(ciphertext))).lstrip('0b')
+        ciphertext = bin(bytes_to_long(b64decode(ciphertext.encode()))).lstrip('0b')
         self.ciphertext = self.pad(ciphertext)
 
         if self.debug:
