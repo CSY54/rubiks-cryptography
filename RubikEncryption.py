@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 from Rubik import Rubik
-from binascii import hexlify, unhexlify
+from Crypto.Util.number import bytes_to_long, long_to_bytes
+from base64 import b64encode, b64decode
 
 class RubikEncryption():
 
@@ -20,7 +21,7 @@ class RubikEncryption():
         if type(plaintext) != bytes:
             raise TypeError('Type of plaintext must be bytes')
 
-        plaintext = bin(int(hexlify(plaintext), 16))[2:]
+        plaintext = bin(bytes_to_long(plaintext)).lstrip('0b')
         self.plaintext = self.pad(plaintext)
 
         if self.debug:
@@ -41,14 +42,14 @@ class RubikEncryption():
         if self.debug:
             print('[+] self.ciphertext : {}'.format(self.ciphertext))
 
-        return self.hexdigest(self.ciphertext)
+        return b64encode(long_to_bytes(int(self.ciphertext, 2))).decode()
 
     def decrypt(self, ciphertext, key):
         # ciphertext
         if type(ciphertext) != bytes:
             raise TypeError('Type of ciphertext must be bytes')
 
-        ciphertext = bin(int(ciphertext, 16))[2:]
+        ciphertext = bin(bytes_to_long(b64decode(ciphertext))).lstrip('0b')
         self.ciphertext = self.pad(ciphertext)
 
         if self.debug:
@@ -69,11 +70,10 @@ class RubikEncryption():
         if self.debug:
             print('[+] self.plaintext : {}'.format(self.plaintext))
 
-        return self.unhexdigest(self.plaintext).decode()
+        return long_to_bytes(int(self.plaintext, 2)).decode()
 
     def run(self):
         text = ''
-        print('[+] self.key : {}'.format(self.key))
         for t in self.part:
             cube = Rubik(list(t), debug=self.debug, animation=self.animation)
             # assert(list(t) == cube.state)
@@ -86,17 +86,3 @@ class RubikEncryption():
 
     def pad(self, text):
         return '0' * ((54 - len(text) % 54) % 54) + text
-
-    def hexdigest(self, text):
-        return ('%x' % int(text, 2)).encode()
-        # try:
-        #     return hexlify(unhexlify('%x' % int(text, 2)))
-        # except:
-        #     return hexlify(unhexlify('0%x' % int(text, 2)))
-
-    def unhexdigest(self, text):
-        return unhexlify('%x' % int(text, 2))
-        # try:
-        #     return unhexlify('%x' % int(text, 2))
-        # except:
-        #     return unhexlify('0%x' % int(text, 2))
